@@ -260,7 +260,7 @@ class InstagramAPI:
         )
         #self.SendRequest(endpoint,post=data) #overwrites 'Content-type' header and boundary is missed
         response = self.s.post(self.API_URL + endpoint, data=data)
-        
+
         if response.status_code == 200:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
@@ -359,7 +359,7 @@ class InstagramAPI:
         'media_id'     : mediaId
         })
         return self.SendRequest('media/'+ str(mediaId) +'/delete/', self.generateSignature(data))
-   
+
     def changePassword(self, newPassword):
         data = json.dumps({
         '_uuid'        : self.uuid,
@@ -370,7 +370,7 @@ class InstagramAPI:
         'new_password2' : newPassword
         })
         return self.SendRequest('accounts/change_password/', self.generateSignature(data))
-    
+
     def explore(self):
         return self.SendRequest('discover/explore/')
 
@@ -543,11 +543,11 @@ class InstagramAPI:
         }
         if maxid:
             query_string['max_id'] = maxid
-        if system.version_info.major == 3:
+        if sys.version_info.major == 3:
             url += urllib.parse.urlencode(query_string)
         else:
             url += urllib.urlencode(query_string)
-        
+
         return self.SendRequest(url)
 
     def getSelfUsersFollowing(self):
@@ -675,10 +675,10 @@ class InstagramAPI:
             return generated_uuid
         else:
             return generated_uuid.replace('-', '')
-    
+
     def generateUploadId():
         return str(calendar.timegm(datetime.utcnow().utctimetuple()))
-    
+
     def buildBody(self,bodies, boundary):
         body = u''
         for b in bodies:
@@ -695,7 +695,7 @@ class InstagramAPI:
             body += u'\r\n\r\n{data}\r\n'.format(data = b['data'])
         body += u'--{boundary}--'.format(boundary = boundary)
         return body;
-    
+
     def SendRequest(self, endpoint, post = None, login = False):
         if (not self.isLoggedIn and not login):
             raise Exception("Not logged in!\n")
@@ -724,7 +724,7 @@ class InstagramAPI:
             except:
                 pass
             return False
-            
+
     def getTotalFollowers(self,usernameId):
         followers = []
         next_max_id = ''
@@ -736,8 +736,8 @@ class InstagramAPI:
                 followers.append(item)
 
             if temp["big_list"] == False:
-                return followers            
-            next_max_id = temp["next_max_id"]         
+                return followers
+            next_max_id = temp["next_max_id"]
 
     def getTotalFollowings(self,usernameId):
         followers = []
@@ -750,8 +750,8 @@ class InstagramAPI:
                 followers.append(item)
 
             if temp["big_list"] == False:
-                return followers            
-            next_max_id = temp["next_max_id"] 
+                return followers
+            next_max_id = temp["next_max_id"]
 
     def getTotalUserFeed(self, usernameId, minTimestamp = None):
         user_feed = []
@@ -766,14 +766,14 @@ class InstagramAPI:
             next_max_id = temp["next_max_id"]
 
     def getTotalSelfUserFeed(self, minTimestamp = None):
-        return self.getTotalUserFeed(self.username_id, minTimestamp) 
-    
+        return self.getTotalUserFeed(self.username_id, minTimestamp)
+
     def getTotalSelfFollowers(self):
         return self.getTotalFollowers(self.username_id)
-    
+
     def getTotalSelfFollowings(self):
         return self.getTotalFollowings(self.username_id)
-        
+
     def getTotalLikedMedia(self, scan_rate = 1):
         next_id = ''
         liked_items = []
