@@ -717,6 +717,8 @@ class InstagramAPI:
             return True
         else:
             print ("Request return " + str(response.status_code) + " error!")
+            if response.status_code == 400:
+                print(response.text)
             # for debugging
             try:
                 self.LastResponse = response
