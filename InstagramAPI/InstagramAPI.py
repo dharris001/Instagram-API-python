@@ -16,7 +16,6 @@ from datetime import datetime
 import calendar
 import os
 from requests_toolbelt import MultipartEncoder
-from sparkpost import SparkPost, exceptions
 
 # Turn off InsecureRequestWarning
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -67,7 +66,6 @@ class InstagramAPI:
         self.isLoggedIn = False
         self.LastResponse = None
         self.s = requests.Session()
-        self.sparkpost_client = SparkPost('de8d17068e4d7c5aad04b3b49e933cbae946a795')
 
     def setUser(self, username, password):
         self.username = username
@@ -86,8 +84,7 @@ class InstagramAPI:
             proxies = {'http': proxy, 'https': proxy}
             self.s.proxies.update(proxies)
 
-    def login(self, force=False, email=None):
-        self.email = email
+    def login(self, force=False):
         if (not self.isLoggedIn or force):
             if (self.SendRequest('si/fetch_headers/?challenge_type=signup&guid=' + self.generateUUID(False), None, True)):
 
@@ -982,14 +979,6 @@ class InstagramAPI:
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
-                print(self.LastJson)
-                if 'challenge' in self.LastJson:
-                    print('challenge detected')
-                    # Instagram has returned a verification challenge. In order
-                    # to get passed the challenge we need to email the account
-                    # owner the url and ask them to verify their account.
-                    challenge_url = self.LastJson['challenge']['url']
-                    self.send_verification_challenge_email(challenge_url)
             except:
                 pass
             return False
@@ -1056,22 +1045,3 @@ class InstagramAPI:
             except KeyError as e:
                 break
         return liked_items
-
-    def send_verification_challenge_email(self, challenge_url):
-        print(challenge_url)
-        print(self.email)
-        if not challenge_url or not self.email:
-            print('error getting challenge')
-            return
-
-        try:
-            self.sparkpost_client.transmissions.send(
-                recipients=[self.email],
-                template='verification-challenge',
-                substitution_data={
-                    'challenge_url': challenge_url
-                }
-            )
-            return 'challenge sent'
-        except Exception as e:
-            print(e)
