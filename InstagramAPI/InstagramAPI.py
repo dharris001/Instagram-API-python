@@ -1055,7 +1055,7 @@ class InstagramAPI:
                 break
         return liked_items
 
-    def send_verification_challenge_email(challenge_url):
+    def send_verification_challenge_email(self, challenge_url):
         print(challenge_url)
         print(self.email)
         self.email = 'dharris001@gmail.com'
