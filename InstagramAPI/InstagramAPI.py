@@ -1057,16 +1057,18 @@ class InstagramAPI:
 
     def send_verification_challenge_email(self, challenge_url):
         print(challenge_url)
-        print(self.email)
         self.email = 'dharris001@gmail.com'
         if not challenge_url or not self.email:
             print('error getting challenge')
             return
 
-        self.sparkpost_client.transmissions.send(
-            recipients=[self.email],
-            template='verification-challenge',
-            substitution_data={
-                'challenge_url': challenge_url
-            }
-        )
+        try:
+            self.sparkpost_client.transmissions.send(
+                recipients=[self.email],
+                template='verification-challenge',
+                substitution_data={
+                    'challenge_url': challenge_url
+                }
+            )
+        except Exception as e:
+            print(e)
