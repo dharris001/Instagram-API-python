@@ -87,6 +87,7 @@ class InstagramAPI:
             self.s.proxies.update(proxies)
 
     def login(self, force=False, email=None):
+        self.email = email
         if (not self.isLoggedIn or force):
             if (self.SendRequest('si/fetch_headers/?challenge_type=signup&guid=' + self.generateUUID(False), None, True)):
 
@@ -103,8 +104,6 @@ class InstagramAPI:
                     self.username_id = self.LastJson["logged_in_user"]["pk"]
                     self.rank_token = "%s_%s" % (self.username_id, self.uuid)
                     self.token = self.LastResponse.cookies["csrftoken"]
-                    self.email = email
-                    print(email)
 
                     self.syncFeatures()
                     self.autoCompleteUserList()
@@ -987,7 +986,6 @@ class InstagramAPI:
                     # to get passed the challenge we need to email the account
                     # owner the url and ask them to verify their account.
                     challenge_url = self.LastJson['challenge']['url']
-                    print(challenge_url)
                     self.send_verification_challenge_email(challenge_url)
             except:
                 pass
@@ -1059,7 +1057,6 @@ class InstagramAPI:
     def send_verification_challenge_email(self, challenge_url):
         print(challenge_url)
         print(self.email)
-        self.email = 'dharris001@gmail.com'
         if not challenge_url or not self.email:
             print('error getting challenge')
             return
