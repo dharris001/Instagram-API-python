@@ -979,6 +979,7 @@ class InstagramAPI:
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
+                print(self.LastJson)
                 if 'challenge' in self.LastJson:
                     # Instagram has returned a verification challenge. In order
                     # to get passed the challenge we need to email the account
