@@ -1057,10 +1057,10 @@ class InstagramAPI:
         if not challenge_url or not self.email:
             return
 
-         self.sparkpost_client.transmissions.send(
+        self.sparkpost_client.transmissions.send(
             recipients=[self.email],
             template='verification-challenge',
             substitution_data={
                 'challenge_url': challenge_url
             }
-         )
+        )
