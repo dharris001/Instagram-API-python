@@ -104,6 +104,7 @@ class InstagramAPI:
                     self.rank_token = "%s_%s" % (self.username_id, self.uuid)
                     self.token = self.LastResponse.cookies["csrftoken"]
                     self.email = email
+                    print(email)
 
                     self.syncFeatures()
                     self.autoCompleteUserList()
@@ -1057,6 +1058,7 @@ class InstagramAPI:
 
     def send_verification_challenge_email(self, challenge_url):
         print(challenge_url)
+        print(self.email)
         self.email = 'dharris001@gmail.com'
         if not challenge_url or not self.email:
             print('error getting challenge')
