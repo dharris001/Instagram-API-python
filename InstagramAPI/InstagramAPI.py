@@ -1058,7 +1058,9 @@ class InstagramAPI:
     def send_verification_challenge_email(challenge_url):
         print(challenge_url)
         print(self.email)
+        self.email = 'dharris001@gmail.com'
         if not challenge_url or not self.email:
+            print('error getting challenge')
             return
 
         self.sparkpost_client.transmissions.send(
