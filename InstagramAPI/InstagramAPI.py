@@ -384,6 +384,7 @@ class InstagramAPI:
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
+                print(self.LastJson)
             except:
                 pass
             return False
