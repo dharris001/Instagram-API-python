@@ -981,10 +981,12 @@ class InstagramAPI:
                 self.LastJson = json.loads(response.text)
                 print(self.LastJson)
                 if 'challenge' in self.LastJson:
+                    print('challenge detected')
                     # Instagram has returned a verification challenge. In order
                     # to get passed the challenge we need to email the account
                     # owner the url and ask them to verify their account.
                     challenge_url = self.LastJson['challenge']['url']
+                    print(challenge_url)
                     self.send_verification_challenge_email(challenge_url)
             except:
                 pass
