@@ -113,6 +113,9 @@ class InstagramAPI:
                     print("Login success!\n")
                     return True
 
+                return self.LastResponse
+
+
     def syncFeatures(self):
         data = json.dumps({'_uuid': self.uuid,
                            '_uid': self.username_id,
@@ -1069,5 +1072,6 @@ class InstagramAPI:
                     'challenge_url': challenge_url
                 }
             )
+            return 'challenge sent'
         except Exception as e:
             print(e)
