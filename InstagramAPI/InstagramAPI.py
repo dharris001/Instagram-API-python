@@ -82,6 +82,7 @@ class InstagramAPI:
         if proxy is not None:
             print('Set proxy!')
             proxies = {'http': proxy, 'https': proxy}
+            print(proxies)
             self.s.proxies.update(proxies)
 
     def login(self, force=False):
